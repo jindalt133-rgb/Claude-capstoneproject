@@ -1,0 +1,32 @@
+# Python bytecode / build artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Test / tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# docsync's own generated output (this repo is the tool's source, not a
+# consumer of it -- nothing under docs/generated/ is meant to be committed
+# from local/manual runs against this repository itself)
+docs/generated/
+
+# Editor / OS artifacts
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local, non-shared Claude Code settings (if present)
+.claude/settings.local.json
+
+# Unrelated local tool artifact directory observed in this environment
+.codemie/
