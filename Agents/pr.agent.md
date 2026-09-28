@@ -41,8 +41,10 @@ Executed in this order:
 10. If there are approved outstanding changes not yet committed, commit them (using the project's standard commit-message/attribution convention) — never commit anything not already approved for this PR's scope.
 11. Push the approved feature branch to the remote.
 12. Create the GitHub Pull Request automatically, using an authorized, already-authenticated mechanism (preferred: `gh pr create`). Do not ask the human to perform this step manually when the mechanism is available and prerequisites are met.
-13. Return the actual PR URL produced by the PR-creation call — never a fabricated, guessed, or templated URL.
-14. Report the outcome factually: either the real PR URL, or an explicit stop with the exact missing prerequisite.
+13. Re-query GitHub using the same authenticated mechanism (e.g., `gh pr view`) to independently verify that the newly created Pull Request actually exists, and obtain/confirm its real URL from that re-query. A `gh pr create` call returning without an obvious error is never sufficient evidence of success on its own.
+14. Return the actual PR URL only after this existence verification succeeds — never a fabricated, guessed, or templated URL.
+15. If the re-query fails, or the Pull Request cannot be found, report PR creation as **NOT VERIFIED / FAILED** and stop — do not report success.
+16. Report the outcome factually: either the real, verified PR URL, or an explicit stop with the exact missing prerequisite or verification failure.
 
 ## Allowed Actions
 
@@ -52,7 +54,7 @@ Executed in this order:
 ## Forbidden Actions
 
 * Do not proceed if `docs/verification-report.md` is missing, shows FAIL, or has not been explicitly accepted by the human.
-* Do not claim a Pull Request was created unless a real PR was actually created and a real URL was returned by the GitHub mechanism used — never report success from an assumed, simulated, or partially-completed action.
+* Do not claim a Pull Request was created unless a real PR was actually created, its existence was independently re-verified via a re-query (e.g., `gh pr view`), and a real URL was confirmed by that re-query — never report success from an assumed, simulated, or partially-completed action, and never treat an error-free `gh pr create` call alone as sufficient proof.
 * Do not merge the Pull Request automatically, under any circumstance — merging is a separate, human-only decision.
 * Do not place a PAT/token (or any other credential) in source code, prompts, agent definitions, skills, or committed configuration. Authentication must come from an already-authenticated out-of-band session (e.g., `gh auth login` run by the human beforehand), never from a token embedded in this project.
 * Do not close, modify, or replace any pre-existing manually-created PR.
@@ -63,9 +65,9 @@ Executed in this order:
 ## Expected Output
 
 * A pushed feature branch with only approved commits.
-* An actually-created GitHub Pull Request with the generated title and a description containing Summary, Changes Made, Test Evidence, Known Limitations, and Reviewer Checklist.
-* The real, returned PR URL reported back to the human.
-* OR, if a prerequisite is unmet: an explicit stop naming exactly which prerequisite is missing (e.g., "no passing `docs/verification-report.md`", "`gh` CLI not found", "`gh` CLI not authenticated") and no further action taken.
+* An actually-created, existence-verified GitHub Pull Request with the generated title and a description containing Summary, Changes Made, Test Evidence, Known Limitations, and Reviewer Checklist.
+* The real PR URL, confirmed by re-querying GitHub (e.g., `gh pr view`) after creation, reported back to the human.
+* OR, if a prerequisite is unmet, PR creation fails, or existence verification fails: an explicit stop naming exactly which prerequisite is missing or which step failed (e.g., "no passing `docs/verification-report.md`", "`gh` CLI not found", "`gh` CLI not authenticated", "PR creation NOT VERIFIED — re-query could not find the PR") and no further action taken.
 
 ## Human Approval / Gate Behavior
 
@@ -73,6 +75,6 @@ Gate G5: requires both (a) `docs/verification-report.md` showing a passing resul
 
 ## Completion Criteria
 
-* Either: a real PR exists, its URL was returned, and every safety check (secrets, unwanted artifacts, test evidence, scope match) passed and is reported — or: the agent stopped and named the exact missing prerequisite with no PR falsely claimed.
+* Either: a real PR exists, its existence was independently re-verified via a re-query after creation, its confirmed URL was returned, and every safety check (secrets, unwanted artifacts, test evidence, scope match) passed and is reported — or: the agent stopped and named the exact missing prerequisite or verification failure with no PR falsely claimed.
 * No secrets, generated/cache artifacts, or out-of-scope files were included.
 * No merge occurred.
