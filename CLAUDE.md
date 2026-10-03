@@ -54,6 +54,19 @@ The eight phases, in order, are: **requirements, architecture, design, planning,
 
 This table is the canonical description of how each SDLC phase is invoked and what it produces. It supersedes the "Legacy Runtime Subagents" table below wherever the two would otherwise disagree.
 
+## Orchestration (Full-Pipeline Entry Point)
+
+`Prompts/orchestrator.prompt.md` (→ `Agents/orchestrator.agent.md` → `Skills/orchestrator/SKILL.md`) is the canonical single entry point for running the full eight-phase pipeline above, or resuming an interrupted run, without the human having to invoke each phase's own Prompt in sequence.
+
+The Orchestrator is a coordinator, not a ninth phase: it determines the next eligible phase from actual repository state, invokes that phase's own canonical Prompt/Agent/Skill unchanged, and stops at every Approval Gate (G1–G5) defined below exactly as that phase's own Prompt would. It never performs requirements, architecture, design, planning, implementation, review, verification, or PR work itself, and it never bypasses, infers, or merges past a gate.
+
+Both entry points remain available and are not mutually exclusive:
+
+* **Full SDLC execution:** `Prompts/orchestrator.prompt.md`.
+* **Individual phase execution:** the corresponding existing phase Prompt from the table above (e.g. `Prompts/architecture.prompt.md` to run only Architecture).
+
+A human may still invoke any individual phase Prompt directly at any time; the Orchestrator does not remove or supersede that capability.
+
 ## Source-of-Truth Hierarchy
 
 Use approved artifacts from earlier SDLC stages as the source of truth for later stages.
@@ -229,7 +242,7 @@ The canonical capstone structure is `Instructions/`, `Agents/`, `Skills/`, `Prom
 
 * **`Agents/*.agent.md`** are used where isolation, a distinct tool profile, or independence from the producer's context materially improves quality (design/code/verification review, and the multi-step architecture/planning/implementation phases).
 * **`Skills/*/SKILL.md`** hold the reusable *methodology* for a cross-cutting activity (how to analyze requirements, how to analyze architecture, how to review code, how to verify, how to prepare and create a PR) so that every phase applies the same standard.
-* **`Prompts/*.prompt.md`** are the canonical reusable entry point for each SDLC phase. A prompt identifies its Agent and Skill, checks the relevant approval gate, and either runs inline (requirements, PR) or dispatches to the relevant Agent — see the "Phase → Prompt → Agent → Skill → Artifact Mapping" table above.
+* **`Prompts/*.prompt.md`** are the canonical reusable entry point for each SDLC phase. A prompt identifies its Agent and Skill, checks the relevant approval gate, and either runs inline (requirements, PR) or dispatches to the relevant Agent — see the "Phase → Prompt → Agent → Skill → Artifact Mapping" table above. `Prompts/orchestrator.prompt.md` is the one exception: it is a cross-phase coordinator (see "Orchestration (Full-Pipeline Entry Point)" above), not a phase in its own right, and it never performs a phase's own work.
 * **`Hooks/`** perform only mechanical, objective enforcement (file existence, pattern matching, running tests/linters). Hooks must never approve an artifact, decide a product question, or silently alter scope — they may only block an action and surface a message for a human or Claude to act on.
 
 ## Hook Rules

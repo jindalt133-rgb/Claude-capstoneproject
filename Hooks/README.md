@@ -56,9 +56,9 @@ project-level file — it is intended to be committed, unlike
   PR-creation-shaped Bash command is detected, and it can always be run by
   hand.
 - **What it validates (9 checks):**
-  1. `Agents/`: all 8 required `*.agent.md` files exist and are non-empty.
-  2. `Skills/`: all 8 required `Skills/<name>/SKILL.md` files exist and are non-empty.
-  3. `Prompts/`: all 8 required `*.prompt.md` files exist and are non-empty.
+  1. `Agents/`: all 9 required `*.agent.md` files exist and are non-empty (the eight phase agents plus `orchestrator.agent.md`).
+  2. `Skills/`: all 9 required `Skills/<name>/SKILL.md` files exist and are non-empty (the eight phase skills plus `orchestrator`).
+  3. `Prompts/`: all 9 required `*.prompt.md` files exist and are non-empty (the eight phase prompts plus `orchestrator.prompt.md`).
   4. `Instructions/instructions.md` exists.
   5. Required SDLC artifacts exist (`requirements.md`,
      `architecture.md`, `design-review.md`, `impl-plan.md`,

@@ -22,6 +22,7 @@ REQUIRED_AGENTS = [
     "review.agent.md",
     "verify.agent.md",
     "pr.agent.md",
+    "orchestrator.agent.md",
 ]
 
 REQUIRED_SKILLS = [
@@ -33,6 +34,7 @@ REQUIRED_SKILLS = [
     "review",
     "verify",
     "pr",
+    "orchestrator",
 ]
 
 REQUIRED_PROMPTS = [
@@ -44,6 +46,7 @@ REQUIRED_PROMPTS = [
     "review.prompt.md",
     "verify.prompt.md",
     "pr.prompt.md",
+    "orchestrator.prompt.md",
 ]
 
 REQUIRED_SDLC_ARTIFACTS = [
