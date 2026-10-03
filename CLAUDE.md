@@ -97,7 +97,9 @@ Hooks may check for the *existence and mechanical state* of these gate artifacts
 
 ## Requirements Rules
 
-Treat `user_story.md` as the primary source during requirements analysis.
+Treat the selected User Story source — resolved by `Prompts/requirements.prompt.md` from one of the capstone-supported source types (Jira, Confluence, or a supplied Word document) — as the primary source during requirements analysis.
+
+For Jira and Confluence, source resolution is performed through the Atlassian MCP. For a Word document, the supplied file is consumed through the supported file-reading mechanism. A root-level `user_story.md` is not required by the canonical workflow; it may still exist as a legacy/historical input for already-completed runs, but no current Requirements run depends on its presence.
 
 Distinguish clearly between:
 

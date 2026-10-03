@@ -1,6 +1,6 @@
 ---
 name: requirements
-description: Methodology for converting user_story.md into clear, testable requirements.md without fabricating missing information. Used by Agents/requirements.agent.md.
+description: Methodology for converting the selected User Story (from Jira, Confluence, or a supplied Word document, as resolved by Prompts/requirements.prompt.md) into clear, testable requirements.md without fabricating missing information. Used by Agents/requirements.agent.md.
 ---
 
 # Requirements Skill
@@ -13,7 +13,7 @@ Provide a consistent methodology for converting a User Story into clear, testabl
 
 ## Inputs / Prerequisites
 
-* `user_story.md` — the primary source of truth for this phase.
+* The selected User Story — the primary source of truth for this phase, resolved by `Prompts/requirements.prompt.md` from Jira, Confluence, or a supplied Word document. This methodology is source-agnostic; it does not perform or duplicate the MCP/file retrieval itself.
 * Direct human answers to any clarification questions raised while applying this methodology.
 
 ## Method / Workflow
@@ -60,7 +60,9 @@ Before finalizing `requirements.md`, verify that:
 
 ## Traceability Expectations
 
-Every FR/NFR should be traceable to a specific statement in `user_story.md` or an explicitly confirmed human answer recorded during clarification — never to an unstated inference.
+Every FR/NFR should be traceable to a specific statement in the selected User Story or an explicitly confirmed human answer recorded during clarification — never to an unstated inference.
+
+When the User Story was retrieved from Jira or Confluence, `requirements.md` should record the source's non-secret metadata (e.g. Source Type, Source Page/Issue, Content ID/Issue Key, Space/Project, Source Version) for traceability. When it was supplied as a Word document, record equivalent safe document metadata (e.g. file name, supplied date). Never record OAuth tokens, PATs, passwords, authorization headers, or other credentials.
 
 ## Security Considerations
 

@@ -4,7 +4,7 @@ This directory holds the approved artifacts produced by each phase of the Agenti
 
 | File | Produced during | Status |
 |---|---|---|
-| `user-story.md` | Intake (input to Requirements) | Present |
+| `user-story.md` | Legacy intake snapshot (historical; no longer a required Requirements input — current runs resolve the User Story from Jira, Confluence, or a supplied Word document) | Present |
 | `requirements.md` | Requirements | Not yet created |
 | `architecture.md` | Architecture | Not yet created |
 | `adr/*.md` | Architecture (as needed) | Directory present, empty |

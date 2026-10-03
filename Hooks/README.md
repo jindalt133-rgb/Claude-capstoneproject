@@ -60,12 +60,15 @@ project-level file — it is intended to be committed, unlike
   2. `Skills/`: all 8 required `Skills/<name>/SKILL.md` files exist and are non-empty.
   3. `Prompts/`: all 8 required `*.prompt.md` files exist and are non-empty.
   4. `Instructions/instructions.md` exists.
-  5. Required SDLC artifacts exist (`user_story.md`, `requirements.md`,
+  5. Required SDLC artifacts exist (`requirements.md`,
      `architecture.md`, `design-review.md`, `impl-plan.md`,
      `docs/code-review.md`, `docs/verification-report.md`) — **existence
      only**. This hook never parses or judges an artifact's verdict; per
      `CLAUDE.md`'s Hook Rules, accepting an artifact is always a human
-     decision.
+     decision. `user_story.md` is intentionally not required here: the
+     canonical Requirements workflow resolves its User Story input from
+     Jira, Confluence, or a supplied Word document (see `CLAUDE.md`'s
+     Requirements Rules) and does not depend on a local snapshot file.
   6. The test suite (`python -m pytest -q -rs`) is actually runnable and
      exits `0`. A non-zero exit (including a genuine test failure) is a
      blocking failure — this single check covers both "the test command can

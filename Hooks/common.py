@@ -47,7 +47,6 @@ REQUIRED_PROMPTS = [
 ]
 
 REQUIRED_SDLC_ARTIFACTS = [
-    "user_story.md",
     "requirements.md",
     "architecture.md",
     "design-review.md",
