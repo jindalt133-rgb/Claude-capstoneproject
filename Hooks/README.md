@@ -23,6 +23,7 @@ and can also be run by hand at any time (see "Manual usage" per hook).
 | `pr_gate_hook.py` | `PreToolUse` / `Bash` hook. Detects a PR-creation-shaped command and runs `pre_pr_validation.py` before allowing it through. |
 | `lightweight_validation.py` | `PostToolUse` / `Write\|Edit` hook. Fast, single-file sanity check after an edit. |
 | `phase_boundary_check.py` | `PreToolUse` / `Write\|Edit` hook. Mechanical Gate-G3-existence guard on `docsync/**` and `tests/**` edits. |
+| `orchestrator_state_check.py` | Standalone, optional deterministic validator for `orchestrator-state.json`. Not registered in `.claude/settings.json` — run manually. |
 
 ## Registration (`.claude/settings.json`)
 
@@ -175,6 +176,19 @@ project-level file — it is intended to be committed, unlike
   exit code).
 - **Portability:** stdlib only (`json`, `pathlib`); fails open (no-op) on
   unparseable stdin or a path outside the repository.
+
+### 5. `orchestrator_state_check.py` — `orchestrator-state.json` shape validator (optional, standalone)
+
+- **Trigger/event:** none — not registered in `.claude/settings.json`. A standalone, manually-run deterministic check, the same way `pre_pr_validation.py` can be run by hand.
+- **What it validates:** if `orchestrator-state.json` exists at the repository root — the durable gate-approval record used by the Orchestrator (`Agents/orchestrator.agent.md`, `Skills/orchestrator/SKILL.md`) to resume safely across sessions — it checks: the file is valid JSON; `schema_version` is present; every entry in `gates` has the required fields and a `gate` value in `G1`–`G5` and a `status` value in `APPROVED`/`UNKNOWN_LEGACY_UNRECORDED`/`PENDING`/`NOT_STARTED`; every `APPROVED` entry has `approval_recorded: true` and a non-null `approved_at` (and every non-`APPROVED` entry has `approval_recorded: false`); `resume` has its required fields; and no secret-shaped content appears in the file. If the file does not exist, the check is a no-op PASS (every gate is then implicitly `UNKNOWN_LEGACY_UNRECORDED`).
+- **What it deliberately does NOT do:** it never judges *whether* a recorded approval was actually given by a human — only that the file's own internal consistency rules (e.g., `APPROVED` always paired with `approval_recorded: true`) hold. Deciding or inferring approval remains a human decision this script cannot observe.
+- **Blocking vs non-blocking:** malformed JSON, missing required fields, an invalid `gate`/`status` value, or an `APPROVED`/`approval_recorded` inconsistency are blocking. A missing G1–G5 entry is a non-blocking WARN (a fresh or partially-initialized state file is valid).
+- **Run manually:**
+  ```
+  python Hooks/orchestrator_state_check.py
+  ```
+- **Exit codes:** `0` = file absent, or all checks passed; `1` = at least one blocking check failed.
+- **Portability:** stdlib only (`json`, `pathlib`); reuses `common.py`'s `SECRET_CONTENT_PATTERNS`.
 
 ## General notes
 

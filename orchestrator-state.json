@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "source": {
+    "type": "Confluence",
+    "identifier": "page:14745601",
+    "space": "Agentic SDLC"
+  },
+  "gates": [
+    {
+      "gate": "G1",
+      "phase": "requirements",
+      "artifact": "requirements.md",
+      "status": "APPROVED",
+      "approval_recorded": true,
+      "approved_at": "2026-09-24",
+      "evidence": "requirements.md header: \"Status: Approved (Gate G1: 2026-09-24)\" — an explicit, standardized human-approval statement recorded in the artifact itself, per Agents/requirements.agent.md's own completion criteria (written only after explicit human approval)."
+    },
+    {
+      "gate": "G2",
+      "phase": "architecture_and_design_review",
+      "artifact": "architecture.md, design-review.md",
+      "status": "UNKNOWN_LEGACY_UNRECORDED",
+      "approval_recorded": false,
+      "approved_at": null,
+      "evidence": "architecture.md's own header explicitly states 'Proposed — pending follow-up Design Review (Gate G2 not yet passed)'. design-review.md's re-review verdict is clean (DR-001–DR-009 all RESOLVED, 0 BLOCKER/0 HIGH, 'READY FOR IMPLEMENTATION PLANNING'), but its own closing line explicitly states 'the decision to accept docs/architecture.md and formally pass Gate G2 remains the human's to make.' No explicit recorded approval of G2 was found anywhere in the repository text. Downstream artifacts (impl-plan.md, docs/code-review.md, docs/verification-report.md, application code, and PR #1) all exist on top of this architecture, which is strong circumstantial evidence a human approved it in a prior, unrecorded session — but per instruction this is not converted into a recorded approval."
+    },
+    {
+      "gate": "G3",
+      "phase": "planning",
+      "artifact": "impl-plan.md",
+      "status": "UNKNOWN_LEGACY_UNRECORDED",
+      "approval_recorded": false,
+      "approved_at": null,
+      "evidence": "impl-plan.md's own header explicitly states 'Proposed — pending Gate G3 human approval.' No explicit recorded approval was found. Implementation proceeded on top of this plan, which is strong circumstantial evidence of a prior, unrecorded approval — not converted into a recorded approval here."
+    },
+    {
+      "gate": "G4",
+      "phase": "code_review",
+      "artifact": "docs/code-review.md",
+      "status": "UNKNOWN_LEGACY_UNRECORDED",
+      "approval_recorded": false,
+      "approved_at": null,
+      "evidence": "docs/code-review.md's Remediation section states fixes were 'Performed per the human's remediation-approval instruction', and the post-remediation result shows 0 BLOCKER/0 HIGH findings remaining (corroborated by docs/verification-report.md citing 'Code Review: APPROVED, BLOCKER 0 / HIGH 0 / MEDIUM 0 / LOW 0'). This is the strongest-evidenced of the unrecorded gates, but it is a record of approval to remediate, not an unambiguous, standardized 'Gate G4 passed' declaration in the same explicit form as G1's. Left UNKNOWN_LEGACY_UNRECORDED rather than inferring full gate approval from it."
+    },
+    {
+      "gate": "G5",
+      "phase": "verification_and_pr",
+      "artifact": "docs/verification-report.md",
+      "status": "UNKNOWN_LEGACY_UNRECORDED",
+      "approval_recorded": false,
+      "approved_at": null,
+      "evidence": "docs/verification-report.md's own closing line explicitly states it is 'Stopping here per instruction — awaiting human approval of this Verification report before any further action (including PR creation).' A real, GitHub-verified Pull Request (#1, OPEN, base main, head feature/automated-documentation-sync) now exists, which is strong circumstantial evidence G5 was satisfied in a later, unrecorded session — per instruction, this existence is not itself converted into a recorded approval."
+    }
+  ],
+  "resume": {
+    "last_completed_phase": "pr",
+    "last_explicitly_approved_gate": "G1",
+    "next_eligible_phase": null,
+    "human_approval_currently_required": false,
+    "note": "All eight phases already have completed work-product artifacts for this legacy run, including a real, verified, OPEN Pull Request (#1). 'next_eligible_phase: null' and 'human_approval_currently_required: false' reflect that there is no further ORCHESTRATION ACTION pending for this already-shipped run — this is a separate claim from whether every gate's approval is durably recorded (see each gate's own 'status' above; G2–G5 are UNKNOWN_LEGACY_UNRECORDED, not APPROVED). A future orchestrated run with a new User Story must not reuse these gate records — re-initialize 'gates' and 'resume' for that run instead."
+  },
+  "meta": {
+    "created_at": "2026-10-04",
+    "note": "Retrofitted once, read-only with respect to all other repository evidence, from existing repository text for this already-completed legacy run. Writing this file created no new approval and altered no existing SDLC artifact. Every gate besides G1 is left UNKNOWN_LEGACY_UNRECORDED because no explicit, contemporaneous human-approval statement for it was found in the repository, even though downstream work clearly proceeded. Future gate approvals must be written here only in the same turn an explicit human approval is actually given — never inferred from artifact existence, downstream files, commits, or an existing Pull Request."
+  }
+}
